@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { AppRoutingModule } from './app-routing.module';
+import {AppRoutingModule, components} from './app-routing.module';
 import { AppComponent } from './app.component';
 // @ts-ignore
 import { QiuzsComponent } from './qiuzs/qiuzs.component';
@@ -10,13 +10,13 @@ import { QuizCreateComponent } from './quizs/quiz-create/quiz-create.component';
 import { QuizListComponent } from './quizs/quiz-list/quiz-list.component';
 import {FormsModule} from '@angular/forms';
 import {HttpClient, HttpClientModule} from '@angular/common/http';
+import { MenuComponent } from './quizs/menu/menu.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    QuizsComponent,
-    QuizCreateComponent,
-    QuizListComponent
+   components,
+    MenuComponent
   ],
   imports: [
     BrowserModule,

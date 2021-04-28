@@ -9,10 +9,11 @@
       </thead>
       <tbody>
       <tr *ngFor="let q of questions">
+        <td>{{q.quiz.libelle}}</td>
         <td>{{q.id}}</td>
         <td>{{q.ref}}</td>
         <td>{{q.numero}}</td>
-        <td>{{q.type}}</td>
+        <td>{{q.type.libelle}}</td>
         <td>{{q.pointReponsefausse}}</td>
         <td>{{q.pointReponseJuste}}</td>
       </tr>

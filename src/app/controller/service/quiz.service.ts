@@ -187,17 +187,19 @@ public _urlType = 'centre/TypeDeQuestion';
   // tslint:disable-next-line:typedef
   // @ts-ignore
   // tslint:disable-next-line:typedef
-  correct(e){
+ /* correct(e){
     if (e.checked){
       this.reponse.correct = true;
     }else if (!e.checked){
       this.reponse.correct = false;
     }
-  }
-  // tslint:disable-next-line:typedef
- /* public addFormule(){
-    this.questions.push(this.clone(this.question));
   }*/
+  // tslint:disable-next-line:typedef
+  public addFormule(){
+    this.question = new Question();
+    // @ts-ignore
+    this.questions.push(this.clone(this.question));
+  }
   // tslint:disable-next-line:typedef
   delete(index: number) {
     // @ts-ignore

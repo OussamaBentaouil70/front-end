@@ -6,4 +6,13 @@ h1{
 .card{
   margin: 0;
   padding: 0;
+  background-color: darkgray;
+}
+label{
+  color: black;
+  font-family:"Arial Black" ;
+}
+#addCard {
+  background-color: lightgray;
+  border: black;
 }
