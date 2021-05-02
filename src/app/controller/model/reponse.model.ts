@@ -10,6 +10,6 @@ export class Reponse {
   // @ts-ignore
   public lib: string;
   // @ts-ignore
-  public correct: boolean;
+  public etatReponse: string;
   public question = new Question();
 }

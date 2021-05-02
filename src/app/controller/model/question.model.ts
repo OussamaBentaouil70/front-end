@@ -21,8 +21,8 @@ export class Question {
   // @ts-ignore
   public pointReponsefausse: number;
   // @ts-ignore
-  public type = new TypeDeQuestion();
+  public typeDeQuestion = new TypeDeQuestion();
   public reponses = new Array<Reponse>();
-  public quiz = new Quiz();
   // @ts-ignore
+  public quiz = new Quiz();
 }

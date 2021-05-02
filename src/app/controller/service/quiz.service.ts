@@ -4,6 +4,7 @@ import {Question} from '../model/question.model';
 import {HttpClient} from '@angular/common/http';
 import {error} from '@angular/compiler/src/util';
 import {TypeDeQuestion} from '../model/type-de-question.model';
+import {Quiz} from '../model/quiz.model';
 
 @Injectable({
   providedIn: 'root'
@@ -68,12 +69,20 @@ export class QuizService {
   constructor(private http: HttpClient) {
   }
   get types(): Array<TypeDeQuestion> {
-    this.http.get(this._urlBase + this._urlType + '/');
+    if (this._types == null){
+      this._types = new Array<TypeDeQuestion>();
+    }
     return this._types;
   }
-
   set types(value: Array<TypeDeQuestion>) {
     this._types = value;
+  }
+  get quiz(): Quiz {
+    return this._quiz;
+  }
+
+  set quiz(value: Quiz) {
+    this._quiz = value;
   }
   // tslint:disable-next-line:variable-name
   // @ts-ignore
@@ -82,15 +91,37 @@ export class QuizService {
   // tslint:disable-next-line:variable-name
   // @ts-ignore
   // tslint:disable-next-line:variable-name
+  private _quiz: Quiz;
+
+// tslint:disable-next-line:variable-name
+  // @ts-ignore
+  // tslint:disable-next-line:variable-name
   private _type: TypeDeQuestion;
   // tslint:disable-next-line:variable-name
   // @ts-ignore
   // tslint:disable-next-line:variable-name
   private _reponses: Array<Reponse>;
-  // tslint:disable-next-line:variable-name
+
+
+
+// tslint:disable-next-line:variable-name
   // @ts-ignore
   // tslint:disable-next-line:variable-name
   private _types: Array<TypeDeQuestion>;
+// tslint:disable-next-line:variable-name
+// @ts-ignore
+  // tslint:disable-next-line:variable-name
+  private _quizs: Array<Quiz>;
+  get quizs(): Array<Quiz> {
+    if (this._quizs == null){
+      this._quizs = new Array<Quiz>();
+    }
+    return this._quizs;
+  }
+
+  set quizs(value: Array<Quiz>) {
+    this._quizs = value;
+  }
 
 // tslint:disable-next-line:variable-name
   // @ts-ignore
@@ -99,15 +130,31 @@ export class QuizService {
   // tslint:disable-next-line:variable-name
   // @ts-ignore
   // tslint:disable-next-line:variable-name
+
+// tslint:disable-next-line:variable-name
+  // @ts-ignore
+  // tslint:disable-next-line:variable-name
   private _questions: Array<Question>;
   // tslint:disable-next-line:typed variable-names variable-name
 public _urlBase = 'http://localhost:8036/';
 // tslint:disable-next-line:variable-name
 public _urlQuestion = 'centre/question';
 // tslint:disable-next-line:variable-name
-public _urlReponse = 'centre/reponse';
+private _urlReponse = 'centre/reponse';
 // tslint:disable-next-line:variable-name
 public _urlType = 'centre/TypeDeQuestion';
+// tslint:disable-next-line:variable-name
+public _urlQuiz = 'centre/quiz';
+public findFormuleRep(): void{
+    this.http.get(this._urlBase + this._urlReponse + '/').subscribe(
+      data => {
+        // @ts-ignore
+        this._reponses = data;
+      }, error1 => {
+        console.log('error finding reponses');
+      }
+    );
+}
   // tslint:disable-next-line:variable-name
   // @ts-ignore
   // tslint:disable-next-line:variable-name
@@ -154,28 +201,118 @@ public _urlType = 'centre/TypeDeQuestion';
   public clone(question: Question) {
     const myQuestion = new Question();
     myQuestion.id = question.id;
+    myQuestion.numero = question.numero;
     myQuestion.ref = question.ref;
     myQuestion.libelle = question.libelle;
-    myQuestion.numero = question.numero;
     myQuestion.pointReponsefausse = question.pointReponsefausse;
-    myQuestion.reponses = question.reponses;
-    myQuestion.quiz = question.quiz;
-    myQuestion.type = question.type;
+    myQuestion.pointReponseJuste = question.pointReponseJuste;
+   /* myQuestion.reponses = question.reponses;
+    myQuestion.quiz.ref = question.quiz.ref;
+    myQuestion.type.lib = question.type.lib;*/
     return myQuestion;
   }
-
+  // tslint:disable-next-line:typedef
+  public findRepByQuestion(question: Question){
+      this.http.get<Array<Reponse>>(this._urlBase + this._urlReponse + '/question/ref/' +  question.ref).subscribe(
+        data => {
+          this.question.reponses = data;
+        }, error1 => {
+          console.log('error loading reponses from questionRef');
+        }
+      );
+  }
+  // tslint:disable-next-line:typedef
+  public findAll(): void {
+    this.http.get<any>(this._urlBase + this._urlType + '/').subscribe(
+      data => {
+        console.log(data);
+        // @ts-ignore
+        this._types = data;
+      }, error1 => {
+        console.log('can\'t bring data from database');
+      }
+    );
+  }
+  public findQuiz(): void {
+    this.http.get<any>(this._urlBase + this._urlQuiz + '/').subscribe(
+      data => {
+        console.log(data);
+        // @ts-ignore
+        this._quizs = data;
+      }, error1 => {
+        console.log('can\'t bring data from database');
+      }
+    );
+  }
 // tslint:disable-next-line:typedef align
   public cloneRep(reponse: Reponse) {
     const mycloneRep = new Reponse();
     mycloneRep.id = reponse.id;
+    mycloneRep.numero = reponse.numero;
     // @ts-ignore
     mycloneRep.lib = reponse.lib;
-    mycloneRep.numero = reponse.numero;
-    mycloneRep.question = reponse.question;
-    mycloneRep.correct = reponse.correct;
+    mycloneRep.etatReponse = reponse.etatReponse;
     mycloneRep.ref = reponse.ref;
+   // mycloneRep.question = reponse.question;
     return mycloneRep;
   }
+  // tslint:disable-next-line:typedef
+ findFormule(): void{
+    this.http.get<any>(this._urlBase + this._urlQuestion + '/').subscribe(
+      data => {
+        // @ts-ignore
+        this.questions = data;
+      }, error1 => {
+        console.log('error finding data');
+      }
+    );
+ }
+ public choixSelected(): void{
+    console.log(this.types);
+   // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.types.length; i++){
+      // tslint:disable-next-line:triple-equals
+      if (this.types[i].lib == this.question.typeDeQuestion.lib){
+        // @ts-ignore
+        this.question.type = this.clone(this.types[i]);
+        console.log(this.question.typeDeQuestion.lib);
+      }
+    }
+    console.log(this.question);
+    console.log(this.types);
+ }
+  public quizSelected(): void{
+    console.log(this.quizs);
+    // tslint:disable-next-line:prefer-for-of
+    for (let i = 0; i < this.quizs.length; i++){
+      // tslint:disable-next-line:triple-equals
+      if (this.quizs[i].ref == this.question.quiz.ref){
+        // @ts-ignore
+        this.question.quiz = this.clone(this.quizs[i]);
+        console.log(this.question.quiz.ref);
+      }
+    }
+    console.log(this.question);
+    console.log(this.quizs);
+  }
+  // tslint:disable-next-line:typedef
+ // @ts-ignore
+  // tslint:disable-next-line:typedef
+  checked(event: any){
+   let i = 0;
+   if (event.target.checked){
+     this.reponse.etatReponse = 'Vrai';
+     this.question.pointReponseJuste = i++;
+    }
+    }
+  // tslint:disable-next-line:typedef
+    public checkedFalse(event: any){
+    let w = 0;
+    if (event.target.checked){
+      this.reponse.etatReponse = 'Faux';
+      this.question.pointReponsefausse = w++;
+    }
+    }
   // tslint:disable-next-line:typedef
   public addCard(){
     const elem = document.getElementById('addCard');
@@ -196,7 +333,6 @@ public _urlType = 'centre/TypeDeQuestion';
   }*/
   // tslint:disable-next-line:typedef
   public addFormule(){
-    this.question = new Question();
     // @ts-ignore
     this.questions.push(this.clone(this.question));
   }

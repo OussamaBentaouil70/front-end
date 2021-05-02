@@ -4,5 +4,5 @@ export class TypeDeQuestion {
   // @ts-ignore
   public ref: string;
   // @ts-ignore
-  public libelle: string;
+  public lib: string;
 }

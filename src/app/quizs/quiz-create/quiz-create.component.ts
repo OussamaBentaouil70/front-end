@@ -4,6 +4,7 @@ import {Question} from '../../controller/model/question.model';
 import {Reponse} from '../../controller/model/reponse.model';
 import {TypeDeQuestion} from '../../controller/model/type-de-question.model';
 import {createViewChild} from '@angular/compiler/src/core';
+import {Quiz} from '../../controller/model/quiz.model';
 
 @Component({
   selector: 'app-quiz-create',
@@ -22,49 +23,52 @@ export class QuizCreateComponent implements OnInit {
     return this.quizService.reponse;
   }
   get reponses(): Array<Reponse> {
-    return this.quizService.reponses;
+    return this.quizService.question.reponses;
   }
   get type(): TypeDeQuestion {
-    return this.quizService.type;
+    return this.quizService.question.typeDeQuestion;
   }
   get types(): Array<TypeDeQuestion> {
     return this.quizService.types;
   }
-  // tslint:disable-next-line:variable-name
-  // @ts-ignore
-  // tslint:disable-next-line:variable-name
-  answers =  [ { ans: 'choix unique', id: '0'},
-    { ans: 'choix multiple', id: '1'}];
-  // @ts-ignore
-  dataarray: string[];
-  // tslint:disable-next-line:typedef
-  // @ts-ignore
-
-// tslint:disable-next-line:typedef
-  // @ts-ignore
-  // tslint:disable-next-line:typedef
-  /*correct(e){
-    this.quizService.correct(e);
-  }*/
-  // tslint:disable-next-line:typedef
- /* selectCorrect(){
-    this.quizService.selectCorrect();
-  }*/
   // @ts-ignore
   ngOnInit(): void {
+    this.quizService.findAll();
     this.questions.push(this.question);
+    this.quizService.findQuiz();
+  }
+  // @ts-ignore
+  // tslint:disable-next-line:typedef
+  checked(event){
+   return  this.quizService.checked(event);
+  }
+  // tslint:disable-next-line:typedef
+  public checkedFalse(event: any){
+    return this.quizService.checkedFalse(event);
+  }
+  public choixSelected(): void{
+    this.quizService.choixSelected();
+  }
+  public quizSelected(): void{
+    this.quizService.quizSelected();
   }
   // tslint:disable-next-line:typedef
   public addCard(){
     return this.quizService.addCard();
   }
+  get quizs(): Array<Quiz> {
+    return this.quizService.quizs;
+  }
   // tslint:disable-next-line:typedef
   public addFormule(){
-    this.quizService.addFormule();
+  return   this.quizService.addFormule();
   }
   // tslint:disable-next-line:typedef
   public save(){
     return this.quizService.save();
+  }
+  get quiz(): Quiz {
+    return this.quizService.question.quiz;
   }
   // tslint:disable-next-line:typedef
   private clone(question: Question) {
