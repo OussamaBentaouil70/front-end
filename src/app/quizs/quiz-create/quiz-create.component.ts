@@ -31,9 +31,13 @@ export class QuizCreateComponent implements OnInit {
   get types(): Array<TypeDeQuestion> {
     return this.quizService.types;
   }
+  get dataarray(): any[] {
+    return this.quizService.dataarray;
+  }
   // @ts-ignore
   ngOnInit(): void {
     this.quizService.findAll();
+    // @ts-ignore
     this.questions.push(this.question);
     this.quizService.findQuiz();
   }

@@ -6,8 +6,6 @@ export class Reponse {
   // @ts-ignore
   public ref: string;
   // @ts-ignore
-  public numero: number;
-  // @ts-ignore
   public lib: string;
   // @ts-ignore
   public etatReponse: string;

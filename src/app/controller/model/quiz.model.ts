@@ -1,6 +1,8 @@
+import {Question} from './question.model';
+
 export class Quiz {
   // @ts-ignore
-  public libelle: string;
+  public lib: string;
   // @ts-ignore
   public ref: string;
   // @ts-ignore
@@ -11,4 +13,7 @@ export class Quiz {
   public dateFin: Date;
   // @ts-ignore
   public id: number;
+  // @ts-ignore
+  public seuilReussite: number;
+  public questions = new Array<Question>();
 }

@@ -13,14 +13,14 @@ export class QuizService {
 
   get type(): TypeDeQuestion {
     // this.http.get(this._urlBase + this._urlType + '/');
-    if (this._type == null){
-      this._type = new TypeDeQuestion();
+    if (this._typeDeQuestion == null){
+      this._typeDeQuestion = new TypeDeQuestion();
     }
-    return this._type;
+    return this._typeDeQuestion;
   }
 
   set type(value: TypeDeQuestion) {
-    this._type = value;
+    this._typeDeQuestion = value;
   }
   get reponse(): Reponse {
     if (this._reponse == null) {
@@ -96,13 +96,23 @@ export class QuizService {
 // tslint:disable-next-line:variable-name
   // @ts-ignore
   // tslint:disable-next-line:variable-name
-  private _type: TypeDeQuestion;
+  private _typeDeQuestion: TypeDeQuestion;
   // tslint:disable-next-line:variable-name
   // @ts-ignore
   // tslint:disable-next-line:variable-name
   private _reponses: Array<Reponse>;
+// tslint:disable-next-line:variable-name
+private _dataarray = [];
 
 
+  get dataarray(): any[] {
+    return this._dataarray;
+  }
+
+  set dataarray(value: any[]) {
+    // @ts-ignore
+    this._dataarray = value;
+  }
 
 // tslint:disable-next-line:variable-name
   // @ts-ignore
@@ -166,7 +176,7 @@ public findFormuleRep(): void{
      data => {
      if (data > 0){
     // @ts-ignore
-       this.questions.push(this.clone(this.question));
+       this.questions.push(this.question);
     // @ts-ignore
        this.question = null;
     // tslint:disable-next-line:align no-shadowed-variable no-unused-expression
@@ -200,15 +210,15 @@ public findFormuleRep(): void{
 // tslint:disable-next-line:typedef align
   public clone(question: Question) {
     const myQuestion = new Question();
+    myQuestion.quiz = question.quiz;
     myQuestion.id = question.id;
     myQuestion.numero = question.numero;
     myQuestion.ref = question.ref;
     myQuestion.libelle = question.libelle;
+    myQuestion.typeDeQuestion = question.typeDeQuestion;
     myQuestion.pointReponsefausse = question.pointReponsefausse;
     myQuestion.pointReponseJuste = question.pointReponseJuste;
-   /* myQuestion.reponses = question.reponses;
-    myQuestion.quiz.ref = question.quiz.ref;
-    myQuestion.type.lib = question.type.lib;*/
+    myQuestion.reponses = question.reponses;
     return myQuestion;
   }
   // tslint:disable-next-line:typedef
@@ -248,7 +258,6 @@ public findFormuleRep(): void{
   public cloneRep(reponse: Reponse) {
     const mycloneRep = new Reponse();
     mycloneRep.id = reponse.id;
-    mycloneRep.numero = reponse.numero;
     // @ts-ignore
     mycloneRep.lib = reponse.lib;
     mycloneRep.etatReponse = reponse.etatReponse;
@@ -274,7 +283,7 @@ public findFormuleRep(): void{
       // tslint:disable-next-line:triple-equals
       if (this.types[i].lib == this.question.typeDeQuestion.lib){
         // @ts-ignore
-        this.question.type = this.clone(this.types[i]);
+        this.question.typeDeQuestion = this.clone(this.types[i]);
         console.log(this.question.typeDeQuestion.lib);
       }
     }
